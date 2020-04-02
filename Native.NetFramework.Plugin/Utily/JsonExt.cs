@@ -15,6 +15,11 @@ namespace Native.NetFramework.Plugin.Utily
             return JObject.Parse(json);
         }
 
+        public static T ParseJsonT<T>(this string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
+        }
+
         public static string ToJson(this object value)
         {
             return JsonConvert.SerializeObject(value, new JsonSerializerSettings()

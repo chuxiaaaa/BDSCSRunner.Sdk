@@ -39,7 +39,7 @@ namespace Native.NetFramework.Plugin.Moudel
 
         public delegate uint sendModalFormDelegate(IntPtr uuid, IntPtr title, IntPtr content, IntPtr button1, IntPtr button2);
 
-        public delegate uint sendCustomFormDelegate(IntPtr uuid, IntPtr json);
+        public delegate int sendCustomFormDelegate(IntPtr uuid, IntPtr json);
 
         public delegate bool destroyFormDelegate(int formId);
 
@@ -91,7 +91,7 @@ namespace Native.NetFramework.Plugin.Moudel
         /// <param name="uuid"></param>
         /// <param name="json"></param>
         /// <returns></returns>
-        public uint sendCustomForm(string uuid, string json)
+        public int sendCustomForm(string uuid, string json)
         {
             sendCustomFormDelegate @delegate = (sendCustomFormDelegate)Invoke("sendCustomForm", typeof(sendCustomFormDelegate));
             return @delegate.Invoke(uuid.GetGCHandle().AddrOfPinnedObject(), json.GetGCHandle().AddrOfPinnedObject());

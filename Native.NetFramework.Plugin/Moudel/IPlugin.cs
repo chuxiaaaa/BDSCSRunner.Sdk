@@ -14,10 +14,13 @@ namespace Native.NetFramework.Plugin.Moudel
     public abstract class IPlugin
     {
         #region 属性
+
+        public Dictionary<int, List<Delegate>> formIds { get; set; }
+
         /// <summary>
         /// 插件列表
         /// </summary>
-        public Dictionary<string,Player> players { get; set; }
+        public Dictionary<string, Player> players { get; set; }
         /// <summary>
         /// [<see cref="Native.NetFramework.Plugin.Moudel.IPlugin">插件</see>]Api
         /// </summary>
@@ -149,13 +152,65 @@ namespace Native.NetFramework.Plugin.Moudel
 
         #region 事件
 
+
+
+
+        #region OnPlayerJoinEvent
         public delegate void OnPlayerJoinEventDelegate(PlayerJoinEventArgs e);
 
         /// <summary>
         /// 玩家进入游戏事件
         /// </summary>
         public event OnPlayerJoinEventDelegate OnPlayerJoinEvent;
+        #endregion
 
+        #region OnPlayerInputTextEvent
+
+        public delegate void OnPlayerInputTextDelegate(PlayerInputTextEventArgs e);
+
+        /// <summary>
+        /// 玩家输入消息事件
+        /// </summary>
+        public event OnPlayerInputTextDelegate OnPlayerInputTextEvent;
+
+        #endregion
+
+        #region OnPlayerInputCommandEvent
+
+        public delegate void OnPlayerInputCommandEventDelegate(PlayerInputCommandEventArgs e);
+
+        /// <summary>
+        /// 玩家输入命令事件
+        /// </summary>
+        public event OnPlayerInputCommandEventDelegate OnPlayerInputCommandEvent;
+
+        #endregion
+
+        #region OnPlayerFormSelectEvent
+
+        public delegate void OnPlayerFormSelectEventDelegate(PlayerFormSelectEventArgs e);
+
+        /// <summary>
+        /// 玩家提交GUI事件
+        /// </summary>
+        public event OnPlayerFormSelectEventDelegate OnPlayerFormSelectEvent;
+
+        #endregion
+
+        #region OnExplodeEvent
+
+        public delegate void OnExplodeEventDelegate(OnExploedEventArgs e);
+
+        /// <summary>
+        /// 玩家提交GUI事件
+        /// </summary>
+        public event OnExplodeEventDelegate OnExplodeEvent;
+
+        #endregion
+
+        
+
+        #region CallEvent
         public void CallEvent(EventType eventType, object evetnParam)
         {
             switch (eventType)
@@ -165,6 +220,7 @@ namespace Native.NetFramework.Plugin.Moudel
                 case EventType.OnServerCmdOutputEvent:
                     break;
                 case EventType.OnFormSelectEvent:
+                    OnPlayerFormSelectEvent(evetnParam as PlayerFormSelectEventArgs);
                     break;
                 case EventType.OnUseItemEvent:
                     break;
@@ -200,10 +256,10 @@ namespace Native.NetFramework.Plugin.Moudel
                 case EventType.OnChatEvent:
                     break;
                 case EventType.OnInputTextEvent:
-                    OnPlayerInputText(evetnParam as PlayerInputTextEventArgs);
+                    OnPlayerInputTextEvent(evetnParam as PlayerInputTextEventArgs);
                     break;
                 case EventType.OnInputCommandEvent:
-                    OnPlayerInputCommand(evetnParam as PlayerInputCommandEventArgs);
+                    OnPlayerInputCommandEvent(evetnParam as PlayerInputCommandEventArgs);
                     break;
                 case EventType.OnExploedEvent:
                     break;
@@ -220,24 +276,8 @@ namespace Native.NetFramework.Plugin.Moudel
             }
 
         }
-
-
-        public delegate void OnPlayerInputTextDelegate(PlayerInputTextEventArgs e);
-
-        /// <summary>
-        /// 玩家输入消息事件
-        /// </summary>
-        public event OnPlayerInputTextDelegate OnPlayerInputText;
-
-        public delegate void OnPlayerInputCommandDelegate(PlayerInputCommandEventArgs e);
-
-        /// <summary>
-        /// 玩家输入命令事件
-        /// </summary>
-        public event OnPlayerInputCommandDelegate OnPlayerInputCommand;
-
         #endregion
 
-
+        #endregion
     }
 }

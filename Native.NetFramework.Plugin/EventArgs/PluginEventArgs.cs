@@ -20,7 +20,6 @@ namespace Native.NetFramework.Plugin.EventArgs
 
         public PluginEventArgs(IPlugin p)
         {
-            Console.WriteLine(p);
             this.p = p;
         }
 
@@ -79,5 +78,6 @@ namespace Native.NetFramework.Plugin.EventArgs
         {
             return new Message(this.p, p.playerName);
         }
+
     }
 }

@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 namespace Native.NetFramework.Plugin.EventArgs
 {
     /// <summary>
-    /// 玩家载入名字事件参数
+    /// 玩家提交GUI事件参数
     /// </summary>
-    public class PlayerJoinEventArgs : PluginEventArgs
+    public class PlayerFormSelectEventArgs : PluginEventArgs
     {
-        public PlayerJoinEventArgs(IPlugin p) : base(p)
+        public PlayerFormSelectEventArgs(IPlugin p) : base(p)
         {
         }
 
-        /// <summary>
-        /// 玩家
-        /// </summary>
-        public Moudel.Player p { get; set; }
+        public Player p { get; set; }
 
+        public int formId { get; set; }
+
+        public string selected { get; set; }
     }
 }

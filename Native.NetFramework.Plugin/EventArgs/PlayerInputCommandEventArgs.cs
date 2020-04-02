@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Native.NetFramework.Plugin.EventArgs
 {
+    /// <summary>
+    /// 玩家输入命令事件参数
+    /// </summary>
     public class PlayerInputCommandEventArgs : PluginEventArgs
     {
         public PlayerInputCommandEventArgs(IPlugin p) : base(p)

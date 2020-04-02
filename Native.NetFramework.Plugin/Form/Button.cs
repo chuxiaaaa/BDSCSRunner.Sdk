@@ -10,11 +10,12 @@ namespace Native.NetFramework.Plugin.Form
     public class Button : Element
     {
         public Image Image { get; set; }
-
+        [JsonIgnore]
         public ButtonClickEvent clickEvent;
     }
 
     public delegate void ButtonClickEvent();
+
 
     public class Image
     {

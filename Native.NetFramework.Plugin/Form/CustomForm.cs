@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,10 @@ namespace Native.NetFramework.Plugin.Form
         /// 自定义元素列表
         /// </summary>
         public List<CustomElement> Content { get; set; }
+        [JsonIgnore]
+        public FormSubmitEvent submitEvent { get; set; }
+
+        public delegate void FormSubmitEvent(object[] result);
+
     }
 }
