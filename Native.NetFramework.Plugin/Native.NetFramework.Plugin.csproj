@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Native.NetFramework.Plugin</RootNamespace>
-    <AssemblyName>Native.NetFramework.Plugin</AssemblyName>
+    <AssemblyName>Native.NetFramework.Teleport.csplugin</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -67,6 +67,7 @@
     <Compile Include="EventArgs\PlayerInputCommandEventArgs.cs" />
     <Compile Include="EventArgs\PlayerInputTextEventArgs.cs" />
     <Compile Include="EventArgs\PlayerJoinEventArgs.cs" />
+    <Compile Include="EventArgs\PlayerMoveEventArgs.cs" />
     <Compile Include="EventArgs\PluginEventArgs.cs" />
     <Compile Include="Form\Button.cs" />
     <Compile Include="Form\CustomElement.cs" />
@@ -87,7 +88,7 @@
     <Compile Include="Moudel\Player.cs" />
     <Compile Include="Moudel\PluginApi.cs" />
     <Compile Include="Moudel\PluginExport.cs" />
-    <Compile Include="TpaPlugin.cs" />
+    <Compile Include="TeleportPlugin.cs" />
     <Compile Include="Moudel\IPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utily\JsonExt.cs" />

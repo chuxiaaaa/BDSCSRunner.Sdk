@@ -19,7 +19,43 @@ namespace Native.NetFramework.Plugin.Moudel
         /// <summary>
         /// Z轴
         /// </summary>
-
         public float z { get; set; }
+        /// <summary>
+        /// 坐标维度
+        /// </summary>
+        public int dimensionId { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return string.Format("x:{0},y:{1},z:{2}", x, y, z);
+        }
+
+        public static bool operator ==(Postion p1, Postion p2)
+        {
+            if (object.Equals(p1, null) || object.Equals(p2, null))
+            {
+                return object.Equals(p1, p2);
+            }
+            return p1.x == p2.x && p1.y == p2.y && p1.z == p2.z;
+        }
+
+        public static bool operator !=(Postion p1, Postion p2)
+        {
+            if (object.Equals(p1, null) || object.Equals(p2, null))
+            {
+                return !object.Equals(p1, p2);
+            }
+            return !(p1.x == p2.x && p1.y == p2.y && p1.z == p2.z);
+        }
     }
 }

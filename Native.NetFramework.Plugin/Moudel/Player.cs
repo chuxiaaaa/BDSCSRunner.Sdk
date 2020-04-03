@@ -15,8 +15,7 @@ namespace Native.NetFramework.Plugin.Moudel
         public Player(IPlugin plugin)
         {
             this.plugin = plugin;
-            Height = 1.6f;
-
+            Height = 1.62f;
         }
 
         public float Height { get; private set; }
@@ -37,11 +36,6 @@ namespace Native.NetFramework.Plugin.Moudel
         /// 玩家坐标
         /// </summary>
         public Postion postion { get; set; }
-
-        /// <summary>
-        /// 维度ID
-        /// </summary>
-        public int dimensionId { get; set; }
         /// <summary>
         /// 是否站立
         /// </summary>

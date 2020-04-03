@@ -124,12 +124,12 @@ namespace Native.NetFramework.Plugin.Moudel
                 lock (p.players[playerName])
                 {
                     var pl = p.players[playerName];
-                    pl.dimensionId = jObject.Value<int>("dimensionId");
                     pl.postion = new Postion()
                     {
                         x = jObject["XYZ"].Value<float>("x"),
                         y = jObject["XYZ"].Value<float>("y"),
                         z = jObject["XYZ"].Value<float>("z"),
+                        dimensionId = jObject.Value<int>("dimensionId")
                     };
                     pl.isstand = jObject.Value<int>("isstand");
                     p.players[playerName] = pl;
@@ -160,7 +160,7 @@ namespace Native.NetFramework.Plugin.Moudel
         {
             try
             {
-                const Enum.EventType OnInputCommandEvent = Enum.EventType.OnInputCommandEvent;
+                const Enum.EventType e = Enum.EventType.OnInputCommandEvent;
                 string json = param.GetString();
                 JObject jObject = json.ParseJsonJObject();
                 EventArgs.PlayerInputCommandEventArgs eventParam = new EventArgs.PlayerInputCommandEventArgs(p);
@@ -171,11 +171,11 @@ namespace Native.NetFramework.Plugin.Moudel
                     lock (p.players[playerName])
                     {
                         var pl = p.players[playerName];
-                        pl.dimensionId = jObject.Value<int>("dimensionId");
                         pl.postion = new Postion() {
                             x = jObject["XYZ"].Value<float>("x"),
                             y = jObject["XYZ"].Value<float>("y"),
                             z = jObject["XYZ"].Value<float>("z"),
+                            dimensionId = jObject.Value<int>("dimensionId")
                         };
                         pl.isstand = jObject.Value<int>("isstand");
                         p.players[playerName] = pl;
@@ -183,7 +183,7 @@ namespace Native.NetFramework.Plugin.Moudel
                         eventParam.cmd = jObject.Value<string>("cmd");
                     }
                 }
-                return CallEvent(param, OnInputCommandEvent, eventParam);
+                return CallEvent(param, e, eventParam);
             }
             catch (Exception ex)
             {
@@ -221,12 +221,12 @@ namespace Native.NetFramework.Plugin.Moudel
                     lock (p.players[playerName])
                     {
                         var pl = p.players[playerName];
-                        pl.dimensionId = jObject.Value<int>("dimensionId");
                         pl.postion = new Postion()
                         {
                             x = jObject["XYZ"].Value<float>("x"),
                             y = jObject["XYZ"].Value<float>("y"),
                             z = jObject["XYZ"].Value<float>("z"),
+                            dimensionId = jObject.Value<int>("dimensionId")
                         };
                         pl.isstand = jObject.Value<int>("isstand");
                         p.players[playerName] = pl;
@@ -234,6 +234,7 @@ namespace Native.NetFramework.Plugin.Moudel
                         eventParam.selected = jObject.Value<string>("selected");
                         eventParam.formId = jObject.Value<int>("formid");
                     }
+                   
                     if (p.formIds.ContainsKey(eventParam.formId))
                     {
                         var d = p.formIds[eventParam.formId];
@@ -241,14 +242,14 @@ namespace Native.NetFramework.Plugin.Moudel
                         {
                             ThreadPool.QueueUserWorkItem(new WaitCallback(t =>
                             {
-                                (d.LastOrDefault() as Action)();
+                                (d.LastOrDefault() as Action)?.Invoke();
                             }));
                         }
                         else if (d.Count == 2 && d[0] is FormSubmitEvent)
                         {
                             ThreadPool.QueueUserWorkItem(new WaitCallback(t =>
                             {
-                                (d[0] as FormSubmitEvent)(eventParam.selected.ParseJsonT<object[]>());
+                                (d[0] as FormSubmitEvent)?.Invoke(eventParam.selected.ParseJsonT<object[]>());
                             }));
                         }
                         else
@@ -257,7 +258,7 @@ namespace Native.NetFramework.Plugin.Moudel
                             {
                                 ThreadPool.QueueUserWorkItem(new WaitCallback(t =>
                                 {
-                                    (d[selected] as ButtonClickEvent)();
+                                    (d[selected] as ButtonClickEvent)?.Invoke();
                                 }));
                             }
                         }
@@ -267,6 +268,7 @@ namespace Native.NetFramework.Plugin.Moudel
                             intercept = true,
                         }.ToJson().GetGCHandle().AddrOfPinnedObject();
                     }
+                 
                 }
                 return CallEvent(param, e, eventParam);
             }
@@ -299,7 +301,7 @@ namespace Native.NetFramework.Plugin.Moudel
                 const Enum.EventType e = Enum.EventType.OnExploedEvent;
                 string json = param.GetString();
                 JObject jObject = json.ParseJsonJObject();
-                EventArgs.OnExploedEventArgs eventParam = new EventArgs.OnExploedEventArgs(p);
+                EventArgs.LevelExploedEventArgs eventParam = new EventArgs.LevelExploedEventArgs(p);
                 eventParam.Before = Before;
                 eventParam.entity = jObject.Value<string>("entity");
                 eventParam.entityId = jObject.Value<int>("entityId");
@@ -311,6 +313,57 @@ namespace Native.NetFramework.Plugin.Moudel
                     y = jObject["position"].Value<float>("y"),
                     z = jObject["position"].Value<float>("z"),
                 };
+                return CallEvent(param, e, eventParam);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return IntPtr.Zero;
+            }
+        }
+        #endregion
+
+        #region OnMove
+
+        [DllExport]
+        public static IntPtr BeforeOnMove(IntPtr param)
+        {
+            return OnMoveEvent(true, param);
+        }
+
+        [DllExport]
+        public static IntPtr AfterOnMove(IntPtr param)
+        {
+            return OnMoveEvent(false, param);
+        }
+
+        private static IntPtr OnMoveEvent(bool Before, IntPtr param)
+        {
+            try
+            {
+                const Enum.EventType e = Enum.EventType.OnMoveEvent;
+                string json = param.GetString();
+                JObject jObject = json.ParseJsonJObject();
+                EventArgs.PlayerMoveEventArgs eventParam = new EventArgs.PlayerMoveEventArgs(p);
+                eventParam.Before = Before;
+                var playerName = jObject.Value<string>("playername");
+                if (p.players.ContainsKey(playerName))
+                {
+                    lock (p.players[playerName])
+                    {
+                        var pl = p.players[playerName];
+                        pl.postion = new Postion()
+                        {
+                            x = jObject["XYZ"].Value<float>("x"),
+                            y = jObject["XYZ"].Value<float>("y"),
+                            z = jObject["XYZ"].Value<float>("z"),
+                            dimensionId = jObject.Value<int>("dimensionId")
+                        };
+                        pl.isstand = jObject.Value<int>("isstand");
+                        p.players[playerName] = pl;
+                        eventParam.p = p.players[playerName];
+                    }
+                }
                 return CallEvent(param, e, eventParam);
             }
             catch (Exception ex)

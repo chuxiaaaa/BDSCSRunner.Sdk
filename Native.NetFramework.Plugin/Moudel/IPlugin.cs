@@ -199,19 +199,30 @@ namespace Native.NetFramework.Plugin.Moudel
 
         #region OnExplodeEvent
 
-        public delegate void OnExplodeEventDelegate(OnExploedEventArgs e);
+        public delegate void OnLevelExplodeEventDelegate(LevelExploedEventArgs e);
 
         /// <summary>
         /// 玩家提交GUI事件
         /// </summary>
-        public event OnExplodeEventDelegate OnExplodeEvent;
+        public event OnLevelExplodeEventDelegate OnLevelExplodeEvent;
 
         #endregion
 
-        
+        #region OnPlayerMoveEvent
+
+        public delegate void OnPlayerMoveEventDelegate(PlayerMoveEventArgs e);
+
+        /// <summary>
+        /// 玩家移动事件
+        /// </summary>
+        public event OnPlayerMoveEventDelegate OnPlayerMoveEvent;
+
+        #endregion
+
+
 
         #region CallEvent
-        public void CallEvent(EventType eventType, object evetnParam)
+        public void CallEvent(EventType eventType, object eventParam)
         {
             switch (eventType)
             {
@@ -220,11 +231,12 @@ namespace Native.NetFramework.Plugin.Moudel
                 case EventType.OnServerCmdOutputEvent:
                     break;
                 case EventType.OnFormSelectEvent:
-                    OnPlayerFormSelectEvent(evetnParam as PlayerFormSelectEventArgs);
+                    OnPlayerFormSelectEvent?.Invoke(eventParam as PlayerFormSelectEventArgs);
                     break;
                 case EventType.OnUseItemEvent:
                     break;
                 case EventType.OnMoveEvent:
+                    OnPlayerMoveEvent?.Invoke(eventParam as PlayerMoveEventArgs);
                     break;
                 case EventType.OnAttackEvent:
                     break;
@@ -239,7 +251,7 @@ namespace Native.NetFramework.Plugin.Moudel
                 case EventType.OnChangeDimensionEvent:
                     break;
                 case EventType.OnPlayerJoinEvent:
-                    OnPlayerJoinEvent(evetnParam as PlayerJoinEventArgs);
+                    OnPlayerJoinEvent?.Invoke(eventParam as PlayerJoinEventArgs);
                     break;
                 case EventType.OnPlayerLeftEvent:
                     break;
@@ -256,12 +268,13 @@ namespace Native.NetFramework.Plugin.Moudel
                 case EventType.OnChatEvent:
                     break;
                 case EventType.OnInputTextEvent:
-                    OnPlayerInputTextEvent(evetnParam as PlayerInputTextEventArgs);
+                    OnPlayerInputTextEvent?.Invoke(eventParam as PlayerInputTextEventArgs);
                     break;
                 case EventType.OnInputCommandEvent:
-                    OnPlayerInputCommandEvent(evetnParam as PlayerInputCommandEventArgs);
+                    OnPlayerInputCommandEvent?.Invoke(eventParam as PlayerInputCommandEventArgs);
                     break;
                 case EventType.OnExploedEvent:
+                    OnLevelExplodeEvent?.Invoke(eventParam as LevelExploedEventArgs);
                     break;
                 case EventType.OnPlayerJumpEvent:
                     break;

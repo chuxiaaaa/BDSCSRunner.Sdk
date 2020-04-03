@@ -21,5 +21,7 @@ namespace Native.NetFramework.Plugin.EventArgs
         /// </summary>
         public Moudel.Player p { get; set; }
 
+
+
     }
 }

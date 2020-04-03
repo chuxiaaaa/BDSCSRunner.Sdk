@@ -10,9 +10,9 @@ namespace Native.NetFramework.Plugin.EventArgs
     /// <summary>
     /// 爆炸事件参数
     /// </summary>
-    public class OnExploedEventArgs : PluginEventArgs
+    public class LevelExploedEventArgs : PluginEventArgs
     {
-        public OnExploedEventArgs(IPlugin p) : base(p)
+        public LevelExploedEventArgs(IPlugin p) : base(p)
         {
         }
 
